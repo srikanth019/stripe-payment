@@ -6,9 +6,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   const cardElement = elements.create("card");
   cardElement.mount("#card-element");
 
+  const submitButton = document.getElementById('submit');
   const form = document.getElementById("payment-form");
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
+
+    submitButton.disabled = true;
 
     const { clientSecret } = await fetch("/create-payment-intent", {
       method: "POST",
@@ -25,11 +29,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     );
 
-    console.log(/PI/, paymentIntent);
-
     if (error) {
+      submitButton.disabled = false;
       document.getElementById("error-message").textContent = error.message;
     } else if (paymentIntent.status === "succeeded") {
+      submitButton.disabled = false;
       document.getElementById("error-message").textContent =
         "Payment succeeded!";
     }

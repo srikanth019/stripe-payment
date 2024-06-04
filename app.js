@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const { createPaymentIntent } = require("./controllers/payment");
+const { handleWebHook } = require("./controllers/webhook");
 
 const app = express();
 const PORT = config.port;
@@ -19,9 +20,7 @@ app.use("/", (req, res) => {
 app.post("/create-payment-intent", createPaymentIntent);
 
 // Use the client routes
-app.use("/", clientRoutes);
-
-// Create HTTPS server
+app.use("/webhook",handleWebHook );
 
 app.listen(PORT, () => {
   console.log(`HTTPS Server is running on port ${PORT}`);
