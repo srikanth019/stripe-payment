@@ -22,7 +22,7 @@ app.get("/", (req, res) => {
 app.post("/create-payment-intent", createPaymentIntent);
 
 app.use(
-  "/webhook",
+  "/stripe-webhook",
   bodyParser.raw({ type: "application/json" }),
   handleWebHook
 );
